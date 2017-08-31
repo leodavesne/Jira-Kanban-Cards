@@ -68,6 +68,8 @@ die();
 		$status = $ticket->fields->status->name;
 		$dueDate = strtotime($ticket->fields->duedate);
 
+		$storyPoints = $ticket->fields->customfield_11292;
+
 		$fixVersionsRaw = $ticket->fields->fixVersions;
 		$fixVersions = array();
 		if( is_array($fixVersionsRaw) ) {
@@ -91,6 +93,7 @@ die();
 			"projectName" => $projectName,
 			"dueDate" => $dueDate,
 			"daysUntilDueDate" => self::getDateDifference($dueDate,false),
+			"storyPoints" => $storyPoints
 		);
 	}
 
@@ -196,6 +199,7 @@ die();
 		if (is_null($data)) {
 			throw new Exception("JIRA Rest server returns unexpected result.");
 		}
+
 		return $data;
 	}
 

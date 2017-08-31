@@ -31,7 +31,7 @@ div.search {
 
 div.search div.jirainfo {
 	width: 80%;
-	max-width: 50em; 
+	max-width: 50em;
 	overflow: hidden;
 	margin: auto;
 	text-align: left;
@@ -65,7 +65,8 @@ div.ticket {
 	border-bottom: 1px solid #999;
 	border-right: 1px solid #999;
 	float: left;
-	width: 47%;
+	height: 20%;
+	width: 31%;
 	padding: 1%;
 	page-break-inside : avoid;
 	overflow: hidden;
@@ -73,14 +74,12 @@ div.ticket {
 
 div.ticket div.summary {
 	font-weight: bold;
-	margin-top: 1em;
-	margin-bottom: 1em;
 	text-align: center;
 	width: 100%;
+	height: 59%;
 	font-size: 1.3em;
-	height: 3.9em;
 	overflow: hidden;
-	line-height: 1.3em;
+	line-height: 1.2em;
 }
 
 div.ticket div.epic {
@@ -91,7 +90,7 @@ div.ticket div.epic {
 	text-overflow: ellipsis;
 	-webkit-border-radius: 2px;
 	-moz-border-radius: 2px;
-	border-radius: 2px;	
+	border-radius: 2px;
 	padding: 0 0.5em 0 0.5em;
 	color: #fff;
 }
@@ -175,29 +174,94 @@ div.ticket div.remaining_time:before {
 	color: #666;
 }
 
-div.priority {
+div.priority div:first-child {
 	width: 16px;
 	height: 16px;
-	background-image: url(../images/priorities/major.png);
 	float: left;
 }
 
-div.priority.blocker { background-image: url(../images/priorities/blocker.png); }
-div.priority.critical { background-image: url(../images/priorities/critical.png); }
-div.priority.minor { background-image: url(../images/priorities/minor.png); }
-div.priority.trivial { background-image: url(../images/priorities/trivial.png); }
+div.priority.blocker { background-image: url(../images/priorities/blocker.svg); }
+div.priority.critical { background-image: url(../images/priorities/critical.svg); }
+div.priority.major { background-image: url(../images/priorities/major.svg); }
+div.priority.minor { background-image: url(../images/priorities/minor.svg); }
+div.priority.trivial { background-image: url(../images/priorities/trivial.svg); }
+div.priority.willsee  { background-image: url(../images/types/willsee.svg); }
 
-div.issuetype {
+div.issuetype div:first-child {
 	width: 16px;
 	height: 16px;
-	background-image: url(../images/types/task.png);
 	float: left;
 	margin-right: 0.2em;
 }
 
-div.issuetype.bug { background-image: url(../images/types/bug.png); }
-div.issuetype.epic { background-image: url(../images/types/epic.png); }
-div.issuetype.subtask { background-image: url(../images/types/subtask.png); }
-div.issuetype.idea { background-image: url(../images/types/idea.png); }
-div.issuetype.improvement { background-image: url(../images/types/improvement.png); }
-div.issuetype.newfeature { background-image: url(../images/types/newfeature.png); }
+div.issuetype.image.bug { background-image: url(../images/types/bug.svg); }
+div.issuetype.image.epic, div.issuetype.image.epicforagileboards { background-image: url(../images/types/epic.svg); }
+div.issuetype.image.task { background-image: url(../images/types/task.svg); }
+div.issuetype.image.subtask { background-image: url(../images/types/subtask.svg); }
+div.issuetype.image.idea { background-image: url(../images/types/idea.svg); }
+div.issuetype.image.improvement { background-image: url(../images/types/improvement.svg); }
+div.issuetype.image.newfeature { background-image: url(../images/types/newfeature.svg); }
+div.issuetype.image.story { background-image: url(../images/types/story.svg); }
+
+/**
+ * Ajouts à trier et ranger
+ */
+
+div.ticket > div {
+	width: 100%;
+}
+
+div.ticket > div > div {
+	width: 50%;
+	float: right;
+}
+
+div.ticket > div > div > div {
+	float: left;
+	width: 100%;
+}
+
+div.ticket > div > div:first-child {
+	float: left;
+}
+
+div.ticket div.priority {
+   float: left;
+}
+
+div.ticket div.issuetype {
+   float: left;
+}
+
+div.ticket div.number {
+   float: left;
+   font-size: 1.8em;
+}
+
+div.ticket div.summary {
+   font-size: 2em;
+   float: left;
+}
+
+div.ticket div.story_points {
+   float: left;
+}
+
+div.ticket div.personalization {
+ 	float: right;
+	text-align: right;
+}
+
+div.issuetype.color {
+	width: 100%;
+	height: 3%;
+}
+
+div.issuetype.color.bug { background-color: #D04437; }
+div.issuetype.color.epic, div.issuetype.color.epicforagileboards { background-color: #654982; }
+div.issuetype.color.task { background-color: #3B7FC4; }
+div.issuetype.color.subtask { background-color: #3B7FC4; }
+div.issuetype.color.idea { background-color: red; }
+div.issuetype.color.improvement { background-color: red; }
+div.issuetype.color.newfeature { background-color: red; }
+div.issuetype.color.story { background-color: #67AB49; }

@@ -23,11 +23,11 @@ class CardsController {
 	 */
 	public function index() {
 	}
-	
+
 	/**
 	 * show the printable ticket list based on jql query
 	 */
-	public function tickets() {	
+	public function tickets() {
 
 		/**
 		 * get and check jql query
@@ -65,7 +65,7 @@ class CardsController {
 			"tickets" => $tickets
 		);
 	}
-	
+
 	/**
 	 * put the issues in a format we can work with,
 	 * so limit to the most used values
@@ -96,12 +96,25 @@ class CardsController {
 			"issuetype" => $ticket->fields->issuetype->name,
 			"key" => $ticket->key,
 			"summary" => $ticket->fields->summary,
-			"reporter" => $ticket->fields->reporter ? $ticket->fields->reporter->displayName : "n/a",
-			"assignee" => $ticket->fields->assignee ? $ticket->fields->assignee->displayName : "n/a",
+			// "reporter" => $ticket->fields->reporter ? $ticket->fields->reporter->displayName : "n/a",
+			// "assignee" => $ticket->fields->assignee ? $ticket->fields->assignee->displayName : "n/a",
 			"parent" => isset($ticket->fields->parent) ? $ticket->fields->parent->key : "",
-			"avatar" => $avatar,			
-			"remaining_time" => $time
+			"avatar" => $avatar,
+			// "remaining_time" => $time,
+			"story_points" => $ticket->fields->customfield_11292
 		);
+
+		if( $this->requestVars["post"]["reporter"] == "1" ) {
+			$collectedTicket["reporter"] = $ticket->fields->reporter ? $ticket->fields->reporter->displayName : "n/a";
+		}
+
+		if( $this->requestVars["post"]["assignee"] == "1" ) {
+			$collectedTicket["assignee"] = $ticket->fields->assignee ? $ticket->fields->assignee->displayName : "n/a";
+		}
+
+		if( $this->requestVars["post"]["remaining_time"] == "1" ) {
+			$collectedTicket["remaining_time"] = $time;
+		}
 
 		/**
 		 * add custom fields from Jira Agile (epic and rank)
@@ -115,14 +128,14 @@ class CardsController {
 			if( property_exists($ticket->fields, $key ) ) {
 				$collectedTicket[$name] = $ticket->fields->$key;
 			}
-		}		 
+		}
 
 		/**
 		 * return total collection
 		 */
 		return $collectedTicket;
 	}
-	
+
 	/**
 	 * add Agile-epic information to a ticket, since a ticket comes with the
 	 * link to the epic, but we need to names, which we need to fetch from Jira seperatly
@@ -142,7 +155,7 @@ class CardsController {
 		$epickeys = array_unique($epickeys);
 		if( count($epickeys) == 0 ) return $tickets;
 
-		
+
 		/**
 		 * get names pro jira and convert into nicer structure
 		 */
@@ -160,5 +173,5 @@ class CardsController {
 			$tickets[$i]["epic"] = !empty($key) ? $epics[$key] : "";
 		}
 		return $tickets;
-	}	
+	}
 }

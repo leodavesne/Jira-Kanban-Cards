@@ -23,8 +23,33 @@
 			</select>
 			<br />
 
+			<label for="reporter">Reporter: </label>
+			<select name="reporter">
+				<option value="1">Include information</option>
+				<option value="0" selected="selected">Exclude information</option>
+			</select>
+			<br />
+
+			<label for="assignee">Assignee: </label>
+			<select name="assignee">
+				<option value="1">Include information</option>
+				<option value="0" selected="selected">Exclude information</option>
+			</select>
+			<br />
+
+			<label for="remaining_time">Remaining Time: </label>
+			<select name="remaining_time">
+				<option value="1">Include information</option>
+				<option value="0" selected="selected">Exclude information</option>
+			</select>
+			<br />
+
 			<label for="jql">JQL: </label>
 			<input type="text" name="jql" />
+			<br />
+
+			<label for="personalization">Personalization: </label>
+			<input type="text" name="personalization" />
 			<br />
 
 			<input type="submit" value="Get tickets!" />
