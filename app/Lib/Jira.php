@@ -70,6 +70,11 @@ die();
 
 		$storyPoints = $ticket->fields->customfield_11292;
 
+		$projectName = $ticket->fields->project->name;
+		$projectAvatarXSmallUrl = $ticket->fields->project->avatarUrls->{'16x16'};
+
+		$epicKey = $ticket->fields->customfield_11296;
+
 		$fixVersionsRaw = $ticket->fields->fixVersions;
 		$fixVersions = array();
 		if( is_array($fixVersionsRaw) ) {
@@ -93,7 +98,10 @@ die();
 			"projectName" => $projectName,
 			"dueDate" => $dueDate,
 			"daysUntilDueDate" => self::getDateDifference($dueDate,false),
-			"storyPoints" => $storyPoints
+			"storyPoints" => $storyPoints,
+			"projectName" => $projectName,
+			"projectAvatarXSmallUrl" => $projectAvatarXSmallUrl,
+			"epicKey" => $epicKey
 		);
 	}
 

@@ -76,10 +76,10 @@ div.ticket div.summary {
 	font-weight: bold;
 	text-align: center;
 	width: 100%;
-	height: 59%;
+	height: 57%;
 	font-size: 1.3em;
 	overflow: hidden;
-	line-height: 1.2em;
+	line-height: 1.1em;
 }
 
 div.ticket div.epic {
@@ -178,6 +178,7 @@ div.priority div:first-child {
 	width: 16px;
 	height: 16px;
 	float: left;
+	margin-right: 0.2em;
 }
 
 div.priority.blocker { background-image: url(../images/priorities/blocker.svg); }
@@ -201,7 +202,7 @@ div.issuetype.image.subtask { background-image: url(../images/types/subtask.svg)
 div.issuetype.image.idea { background-image: url(../images/types/idea.svg); }
 div.issuetype.image.improvement { background-image: url(../images/types/improvement.svg); }
 div.issuetype.image.newfeature { background-image: url(../images/types/newfeature.svg); }
-div.issuetype.image.story { background-image: url(../images/types/story.svg); }
+div.issuetype.image.story, div.issuetype.image.userstory { background-image: url(../images/types/story.svg); }
 
 /**
  * Ajouts à trier et ranger
@@ -245,6 +246,7 @@ div.ticket div.summary {
 
 div.ticket div.story_points {
    float: left;
+   font-size: 1.2em;
 }
 
 div.ticket div.personalization {
@@ -254,7 +256,7 @@ div.ticket div.personalization {
 
 div.issuetype.color {
 	width: 100%;
-	height: 3%;
+	height: 2.5%;
 }
 
 div.issuetype.color.bug { background-color: #D04437; }

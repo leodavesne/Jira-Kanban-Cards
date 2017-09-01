@@ -45,11 +45,13 @@ $helper = new CardsHelper();
 			<div class="epic epicgroup_<?php echo $helper->getEpicNumber($ticket['epic']); ?>"><?php echo $ticket["epic"] ?></div>
 			<?php } ?>
 			<?php if( isset($ticket['story_points']) ) { ?>
-			<div class="story_points"><?php echo $ticket["story_points"] ?> Points</div>
+			<div class="story_points"><?php echo $ticket["story_points"] ?> Point<?php if ( $ticket["story_points"] > 1 ) echo 's' ?></div>
 			<?php } ?>
 		</div>
 	</div>
-	<div class="summary"><?php echo ucfirst($ticket["summary"]) ?></div>
+	<div class="summary" style="display:flex; justify-content:center; align-items:center;">
+		<?php echo ucfirst($ticket["summary"]) ?>
+	</div>
 	<!--
 	<?php if( isset($ticket['rank']) ) { ?>
 	<div class="rank"><?php echo $ticket["rank"] ?></div>
@@ -70,8 +72,15 @@ $helper = new CardsHelper();
 	<div class="remaining_time"><?php echo $ticket["remaining_time"] ?></div>
 	<?php } ?>
 	-->
-	<?php if( isset($_POST['personalization']) ) { ?>
-	<div class="personalization"><?php echo $_POST['personalization'] ?></div>
-	<?php } ?>
+
+	<div>
+		<div style="font-size: 0.9em;">
+			<div style="width: 13px; height: 13px; margin-right: 0.2em; background-image: url(<?php echo $ticket['project_avatar_xsmall_url'] ?>);"></div>
+			<?php echo $ticket['project_name'] ?>
+		</div>
+		<?php if( isset($_POST['personalization']) ) { ?>
+			<div class="personalization"><?php echo $_POST['personalization'] ?></div>
+		<?php } ?>
+	</div>
 </div>
 <?php } ?>

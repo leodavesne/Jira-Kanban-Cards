@@ -101,7 +101,9 @@ class CardsController {
 			"parent" => isset($ticket->fields->parent) ? $ticket->fields->parent->key : "",
 			"avatar" => $avatar,
 			// "remaining_time" => $time,
-			"story_points" => $ticket->fields->customfield_11292
+			"story_points" => $ticket->fields->customfield_11292,
+			"project_name" => $ticket->fields->project->name,
+			"project_avatar_xsmall_url" => $ticket->fields->project->avatarUrls->{'16x16'}
 		);
 
 		if( $this->requestVars["post"]["reporter"] == "1" ) {
@@ -120,7 +122,7 @@ class CardsController {
 		 * add custom fields from Jira Agile (epic and rank)
 		 */
 		$customFields = array(
-			"epickey" => "customfield_11100",
+			"epicKey" => "customfield_11296",
 			"rank" => "customfield_10004"
 		);
 
@@ -138,38 +140,38 @@ class CardsController {
 
 	/**
 	 * add Agile-epic information to a ticket, since a ticket comes with the
-	 * link to the epic, but we need to names, which we need to fetch from Jira seperatly
+	 * link to the epic, but we need to names, which we need to fetch from Jira seperately
 	 */
 	protected function addEpicNames($tickets, $jira) {
 
 		/**
 		 * collect all different keys
 		 */
-		$epickeys = array();
+		$epicKeys = array();
 		foreach( $tickets as $ticket ) {
-			if(isset($ticket["epickey"]) ) {
-				$key = trim($ticket["epickey"]);
-				if(!empty($key)) $epickeys[]= $key;
+			if(isset($ticket["epicKey"]) ) {
+				$key = trim($ticket["epicKey"]);
+				if(!empty($key)) $epicKeys[]= $key;
 			}
 		}
-		$epickeys = array_unique($epickeys);
-		if( count($epickeys) == 0 ) return $tickets;
+		$epicKeys = array_unique($epicKeys);
+		if( count($epicKeys) == 0 ) return $tickets;
 
 
 		/**
 		 * get names pro jira and convert into nicer structure
 		 */
-		$rawEpics = $jira->getIssuesByJql("key IN (".implode(",", $epickeys).")", "key,customfield_11101");
+		$rawEpics = $jira->getIssuesByJql("key IN (".implode(",", $epicKeys).")", "key,customfield_11296");
 		$epics = array();
 		foreach($rawEpics->issues as $epic) {
-			$epics[$epic->key] = $epic->fields->customfield_11101;
+			$epics[$epic->key] = $epic->fields->customfield_11296;
 		}
 
 		/**
 		  * modify tickets and add epic names
 		 */
 		for( $i=0; $i < count($tickets); $i++ ) {
-			$key = trim($tickets[$i]["epickey"]);
+			$key = trim($tickets[$i]["epicKey"]);
 			$tickets[$i]["epic"] = !empty($key) ? $epics[$key] : "";
 		}
 		return $tickets;
