@@ -54,9 +54,9 @@ class CardsController {
 		/**
 		 * add epic names to tickets, if wanted
 		 */
-		if( $this->requestVars["post"]["epic"] == "1" ) {
+		// if( $this->requestVars["post"]["epic"] == "1" ) {
 			$tickets = $this->addEpicNames($tickets, $jira);
-		}
+		// }
 
 		/**
 		 * return view vars
@@ -103,7 +103,8 @@ class CardsController {
 			// "remaining_time" => $time,
 			"story_points" => $ticket->fields->customfield_11292,
 			"project_name" => $ticket->fields->project->name,
-			"project_avatar_xsmall_url" => $ticket->fields->project->avatarUrls->{'16x16'}
+			"project_avatar_xsmall_url" => $ticket->fields->project->avatarUrls->{'16x16'},
+			"project_id" => $ticket->fields->project->id
 		);
 
 		if( $this->requestVars["post"]["reporter"] == "1" ) {
@@ -143,37 +144,92 @@ class CardsController {
 	 * link to the epic, but we need to names, which we need to fetch from Jira seperately
 	 */
 	protected function addEpicNames($tickets, $jira) {
-
-		/**
-		 * collect all different keys
-		 */
 		$epicKeys = array();
 		foreach( $tickets as $ticket ) {
 			if(isset($ticket["epicKey"]) ) {
 				$key = trim($ticket["epicKey"]);
-				if(!empty($key)) $epicKeys[]= $key;
+				if(!empty($key)) {
+					$epicKeys[]= $key;
+				}
 			}
 		}
+
 		$epicKeys = array_unique($epicKeys);
-		if( count($epicKeys) == 0 ) return $tickets;
 
+		if( count($epicKeys) == 0 ) {
+			return $tickets;
+		}
 
-		/**
-		 * get names pro jira and convert into nicer structure
-		 */
-		$rawEpics = $jira->getIssuesByJql("key IN (".implode(",", $epicKeys).")", "key,customfield_11296");
+		$rawEpics = $jira->getIssuesByJql("key IN (".implode(",", $epicKeys).")");
+
 		$epics = array();
 		foreach($rawEpics->issues as $epic) {
-			$epics[$epic->key] = $epic->fields->customfield_11296;
+			$epics[$epic->key] = $epic->fields->summary;
 		}
 
 		/**
 		  * modify tickets and add epic names
-		 */
+		  */
 		for( $i=0; $i < count($tickets); $i++ ) {
 			$key = trim($tickets[$i]["epicKey"]);
-			$tickets[$i]["epic"] = !empty($key) ? $epics[$key] : "";
+			$tickets[$i]["epic_summary"] = !empty($key) ? $epics[$key] : "";
 		}
+
+		/*
+		// $epics = array();
+
+		$epics = json_decode(json_encode($rawEpics->issues), true);
+
+		for( $i=0; $i < count($tickets); $i++ ) {
+			// $tickets[$i]["epic_summary"] = $tickets[$i][$epics[$tickets[$i]["epicKey"]]["summary"]];
+
+			$tickets[$i]["epic_summary"] = $tickets[$i]["epicKey"];
+
+			if ($tickets[$i]["epicKey"] != null) {
+				error_log('$tickets[$i]["epicKey"]: ' . $tickets[$i]["epicKey"] . PHP_EOL, 3, 'C:\Users\leo_000\Documents\GitHub\Jira-Kanban-Cards\log.txt');
+
+				$epicKey = $tickets[$i]["epicKey"];
+
+				error_log('$epicKey: ' . $epicKey . PHP_EOL, 3, 'C:\Users\leo_000\Documents\GitHub\Jira-Kanban-Cards\log.txt');
+
+				$epic = array_search($epicKey, array_column($epics, 'key'));
+
+				error_log('print_r($epic): ' . print_r($epic) . PHP_EOL, 3, 'C:\Users\leo_000\Documents\GitHub\Jira-Kanban-Cards\log.txt');
+
+
+				/*
+				$epicSummary = $epics[array_search($epicKey, $epics)]["summary"];
+
+				error_log('array_search($epicKey, $epics): ' . array_search($epicKey, $epics) . PHP_EOL, 3, 'C:\Users\leo_000\Documents\GitHub\Jira-Kanban-Cards\log.txt');
+
+				error_log('$epicSummary: ' . $epicSummary . PHP_EOL, 3, 'C:\Users\leo_000\Documents\GitHub\Jira-Kanban-Cards\log.txt');
+				*/
+
+				// $tickets[$i][$epics[$epicKey]["summary"]]
+
+				// $tickets[$i]["epic_summary"] = $tickets[$i][$epics[$tickets[$i]["epicKey"]]["summary"]];
+			/*
+			}
+		}
+		*/
+
+		/*
+		foreach($rawEpics->issues as $epic) {
+			$epics[$epic->key] = $epic->key;
+			$epics[$epic->summary] = $epic->fields->summary;
+
+			error_log('$epic->fields->summary: ' . $epic->fields->summary . PHP_EOL, 3, 'C:\Users\leo_000\Documents\GitHub\Jira-Kanban-Cards\log.txt');
+			error_log('$epics[$epic->key]: ' . $epics[$epic->key] . PHP_EOL, 3, 'C:\Users\leo_000\Documents\GitHub\Jira-Kanban-Cards\log.txt');
+			error_log('$epics[$epic->summary]: ' . $epics[$epic->summary] . PHP_EOL, 3, 'C:\Users\leo_000\Documents\GitHub\Jira-Kanban-Cards\log.txt');
+		}
+
+		/*
+		for( $i=0; $i < count($tickets); $i++ ) {
+			$tickets[$i]["epic_summary"] = $tickets[$i]["epicKey"];
+			// $tickets[$i]["epic_summary"] = $epics[$tickets[$i]["epicKey"]].summary"];
+		}
+		*/
+
 		return $tickets;
 	}
 }

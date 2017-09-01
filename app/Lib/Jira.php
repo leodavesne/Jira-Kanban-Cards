@@ -73,7 +73,7 @@ die();
 		$projectName = $ticket->fields->project->name;
 		$projectAvatarXSmallUrl = $ticket->fields->project->avatarUrls->{'16x16'};
 
-		$epicKey = $ticket->fields->customfield_11296;
+		$projectId = $ticket->fields->project->id;
 
 		$fixVersionsRaw = $ticket->fields->fixVersions;
 		$fixVersions = array();
@@ -101,7 +101,7 @@ die();
 			"storyPoints" => $storyPoints,
 			"projectName" => $projectName,
 			"projectAvatarXSmallUrl" => $projectAvatarXSmallUrl,
-			"epicKey" => $epicKey
+			"projectId" => $projectId
 		);
 	}
 
@@ -111,6 +111,9 @@ die();
 	 * @return mixed
 	 */
 	public function getIssuesByJql($jql, $fields = "*all") {
+
+		error_log('getIssuesByJql' . "search?fields=".$fields."&maxResults=200&jql=" . str_replace("%252F", "/",	rawurlencode($jql)), 3, 'C:\Users\leo_000\Documents\GitHub\Jira-Kanban-Cards\log.txt');
+
 
 		// encode jql string, but decode slashes (/),
 		// Jira can only handle them decoded

@@ -266,4 +266,20 @@ div.issuetype.color.subtask { background-color: #3B7FC4; }
 div.issuetype.color.idea { background-color: red; }
 div.issuetype.color.improvement { background-color: red; }
 div.issuetype.color.newfeature { background-color: red; }
-div.issuetype.color.story { background-color: #67AB49; }
+div.issuetype.color.story, div.issuetype.color.userstory { background-color: #67AB49; }
+
+table, th, td {
+	border: 0.1px solid black;
+	border-spacing: 0px;
+}
+
+table {
+	width: 100%;
+    border-style: none;
+}
+
+td {
+    height: 5px;
+    border-style: none;
+    border-left-style: dotted;
+}

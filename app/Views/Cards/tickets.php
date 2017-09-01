@@ -31,22 +31,29 @@ $helper = new CardsHelper();
 	</div>
 	<div>
 		<div>
-			<div class="issuetype">
-				<div class="issuetype image <?php echo str_replace('(', '', str_replace(')', '', str_replace('-', '', str_replace(' ', '', strtolower($ticket['issuetype']))))) ?>"></div>
-				<?php echo $ticket['issuetype'] ?>
+			<div>
+				<div class="issuetype">
+					<div class="issuetype image <?php echo str_replace('(', '', str_replace(')', '', str_replace('-', '', str_replace(' ', '', strtolower($ticket['issuetype']))))) ?>"></div>
+					<?php echo $ticket['issuetype'] ?>
+				</div>
+				<div class="priority">
+					<div class="priority <?php echo strtolower($ticket['priority']) ?>"></div>
+					<?php echo $ticket['priority'] ?>
+				</div>
 			</div>
-			<div class="priority">
-				<div class="priority <?php echo strtolower($ticket['priority']) ?>"></div>
-				<?php echo $ticket['priority'] ?>
-			</div>
-		</div>
-		<div>
-			<?php if( isset($ticket['epic']) ) { ?>
-			<div class="epic epicgroup_<?php echo $helper->getEpicNumber($ticket['epic']); ?>"><?php echo $ticket["epic"] ?></div>
-			<?php } ?>
 			<?php if( isset($ticket['story_points']) ) { ?>
 			<div class="story_points"><?php echo $ticket["story_points"] ?> Point<?php if ( $ticket["story_points"] > 1 ) echo 's' ?></div>
 			<?php } ?>
+		</div>
+		<div>
+			<div style="font-size: 0.9em;">
+				<div style="width: 13px; height: 13px; margin-right: 0.2em; background-image: url(<?php echo $ticket['project_avatar_xsmall_url'] ?>);"></div>
+				<?php echo $ticket['project_name'] ?>
+			</div>
+			<?php if( isset($ticket['epic']) ) { ?>
+			<div class="epic epicgroup_<?php echo $helper->getEpicNumber($ticket['epic']); ?>"><?php echo $ticket["epic"] ?></div>
+			<?php } ?>
+			<div class="epic_summary"><?php echo $ticket["epic_summary"] ?></div>
 		</div>
 	</div>
 	<div class="summary" style="display:flex; justify-content:center; align-items:center;">
@@ -74,9 +81,19 @@ $helper = new CardsHelper();
 	-->
 
 	<div>
-		<div style="font-size: 0.9em;">
-			<div style="width: 13px; height: 13px; margin-right: 0.2em; background-image: url(<?php echo $ticket['project_avatar_xsmall_url'] ?>);"></div>
-			<?php echo $ticket['project_name'] ?>
+		<div>
+			<table>
+				<tr>
+					<td></td>
+					<td></td>
+					<td></td>
+					<td></td>
+					<td></td>
+					<td></td>
+					<td></td>
+					<td></td>
+				</tr>
+			</table>
 		</div>
 		<?php if( isset($_POST['personalization']) ) { ?>
 			<div class="personalization"><?php echo $_POST['personalization'] ?></div>
